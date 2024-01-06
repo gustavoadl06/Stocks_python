@@ -60,6 +60,8 @@ def get_indicators(stock):
     # Calculating intrinsic and opportunity values
     intrinsic_value = intrinsic_value_calculous(lpa, vpa)
     oportunity_value = oportunity_value_calculous(intrinsic_value, actual_value)
+    number_market_stocks = soup.select_one('div[title="Total de papéis disponíveis para negociação"] strong.value').get_text().strip()
+
 
     # Storing the data in a dictionary
     data = {"Stock": stock,
@@ -68,7 +70,8 @@ def get_indicators(stock):
             "VPA": vpa,
             "LPA": lpa,
             "Intrinsic Value": intrinsic_value,
-            "Oportunity Value": oportunity_value
+            "Oportunity Value": oportunity_value,
+            "Number Stocks": number_market_stocks
             }
 
     # Appending the dictionary to the list
@@ -81,6 +84,9 @@ for stock in list_stocks:
 # Creating a DataFrame from the list of dictionaries
 df = pd.DataFrame(dictionary_data)
 
+# Sorting the DataFrame by the buying opportunity value
+df = df.sort_values(by='Oportunity Value', ascending=False)
+
 # Formatting columns in the DataFrame
 df['LPA'] = df['LPA'].apply(format_percentage)
 df['VPA'] = df['VPA'].apply(format_percentage)
@@ -88,6 +94,7 @@ df['DY'] = df['DY'].apply(format_percentage)
 df['Value'] = df['Value'].apply(format_money)
 df['Intrinsic Value'] = df['Intrinsic Value'].apply(format_money)
 df['Oportunity Value'] = df['Oportunity Value'].apply(format_percentage)
+df['Number Stocks'] = df['Number Stocks']
 
 # Printing the final DataFrame
 print(df)
