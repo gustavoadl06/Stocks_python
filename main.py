@@ -20,10 +20,13 @@ def format_percentage(dividend_yield):
 
 # Function to calculate intrinsic value
 def intrinsic_value_calculous(lpa, vpa):
-    result = (float(lpa.replace(',', '')) * float(vpa.replace(',', '')) * 22.5)
-    raiz = math.sqrt(result)
-    raiz /= 100
-    result = round(raiz, 2)
+    if (float(lpa.replace(',', ''))) < 0 or float(vpa.replace(',', '')) < 0:
+        result = 0
+    else:      
+        result = (float(lpa.replace(',', '')) * float(vpa.replace(',', '')) * 22.5)
+        raiz = math.sqrt(result)
+        raiz/=100
+        result = round(raiz, 2)
     return result
 
 # Function to calculate opportunity value
